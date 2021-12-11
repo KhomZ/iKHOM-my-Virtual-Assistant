@@ -6,11 +6,13 @@
 # code coming soon
 # coding started at 18th Nov 2021,
 
-import speech_recognition as sr
-import pyttsx3
-import datetime
-import webbrowser
-import wikipedia
+import speech_recognition as sr # pip install speech_recognition
+import pyttsx3 # pip install pyttsx3
+import datetime # pip install datetime
+import webbrowser # pip install webbrowser module
+import wikipedia #pip install wikipedia
+
+
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
