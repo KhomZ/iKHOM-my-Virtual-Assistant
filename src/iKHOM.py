@@ -124,7 +124,7 @@ def activate_va():
         notification_message = f"Total cases: {total_cases}\n New Cases: {new_cases[1:]}" \
                                f"\n Total Recovered: {total_recovered}"
         # {} this symbol is for interpolation
-        # notification pop up
+        # notification pop up on your desktop
         notification.notify(
             title="COVID-19 Statistics",
             # message="pending...",
