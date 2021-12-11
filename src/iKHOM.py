@@ -6,26 +6,27 @@
 # code coming soon
 # coding started at 18th Nov 2021,
 
-import speech_recognition as sr # pip install speech_recognition
-import pyttsx3 # pip install pyttsx3
-import datetime # pip install datetime
-import webbrowser # pip install webbrowser module
-import wikipedia #pip install wikipedia
-
-
+import speech_recognition as sr  # pip install speech_recognition
+import pyttsx3  # pip install pyttsx3
+import datetime  # pip install datetime
+import webbrowser  # pip install webbrowser module
+import wikipedia  # pip install wikipedia
+import pyjokes  # pip install pyjokes
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id) # 1 is for female voice and 0 is for male voice
 
 
-# now lets define a function that accepts the user's command
+# now let's define a function that accepts the user's command
 def input_query():
     recognizer = sr.Recognizer() # to recognize  from an audio source
     with sr.Microphone() as source: # source of recognition
         print('recognition is on....') 
         recognizer.pause_threshold = 0.7
-        voice =recognizer.listen(source) # this method in turnwill record the input from the audio source as long as there's some voice or someone is speaking
+        voice = recognizer.listen(source)
+        # this method in turn will record the input from the audio source
+        # as long as there's some voice or someone is speaking
         try:
             # print(x)
             query = recognizer.recognize_google(voice).lower()
@@ -34,10 +35,12 @@ def input_query():
         except Exception as ex:
             print('An exception occurred', ex)
 
+
 def report_time():
     # datetime.datetime.now()
     current_time = datetime.datetime.now().strftime('%I:%M %p')
     return current_time
+
 
 # making the virtual assistant speak
 def speak_va(transcribed_query):
@@ -58,7 +61,7 @@ def activate_va():
     elif 'open website' in user_query:
         speak_va("Please type the name of the website that you want to open(Specify full url)")
         website_name = input()
-        print(website_name) # log the website name to the terminal
+        print(website_name)  # log the website name to the terminal
         webbrowser.open(website_name)
         speak_va(f"{website_name} opened.")
 
@@ -74,6 +77,11 @@ def activate_va():
         result = wikipedia.summary(user_query, sentences = 4)
         print(result)
         speak_va(result)
+
+    elif 'joke' in user_query:
+        random_joke = pyjokes.get_joke()
+        print(random_joke)
+        speak_va(random_joke)
 
 
 while True:
