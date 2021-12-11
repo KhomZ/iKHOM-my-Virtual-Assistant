@@ -91,6 +91,14 @@ def activate_va():
         image.save('screenshot.png')
         speak_va('Screenshot taken.')
 
+    # performing google search
+    elif 'search' in user_query:
+        speak_va("What do you want me to search for? Please type!")
+        search_term = input()
+        search_url = f"https://www.google.com/search?q={search_term}"
+        webbrowser.open(search_url)
+        speak_va(f"Here are the results for the search term: {search_term}")
+
 
 while True:
     activate_va()
