@@ -9,6 +9,8 @@
 import speech_recognition as sr
 import pyttsx3
 import datetime
+import webbrowser
+import wikipedia
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -49,6 +51,28 @@ def activate_va():
         current_time = report_time()
         print(f"The current time is {current_time}")
         speak_va(f"The current time is {current_time}")
+
+    # opening a specific website using webbrowser module
+    elif 'open website' in user_query:
+        speak_va("Please type the name of the website that you want to open(Specify full url)")
+        website_name = input()
+        print(website_name) # log the website name to the terminal
+        webbrowser.open(website_name)
+        speak_va(f"{website_name} opened.")
+
+        # webbrowser.get('C:\Program Files\Google\Chrome\Application\chrome.exe %s').open(website_name)
+        # c = webbrowser.get('firefox')
+        # c.open(website_name)
+        # c.open_new_tab(website_name)
+    
+    # installing wikipedia package and searching on wikipedia
+    elif 'wikipedia' in user_query:
+        speak_va("Searching on Wikipedia")
+        user_query = user_query.replace('wikipedia', ' ')
+        result = wikipedia.summary(user_query, sentences = 4)
+        print(result)
+        speak_va(result)
+
 
 while True:
     activate_va()
