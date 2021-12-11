@@ -5,3 +5,6 @@ webbrowser
 wikipedia
 pyjokes
 pyautogui
+plyer
+bs4
+requests

@@ -5,7 +5,7 @@
 # @author: KhomZ 
 # code coming soon
 # coding started at 18th Nov 2021,
-
+import requests
 import speech_recognition as sr  # pip install speech_recognition
 import pyttsx3  # pip install pyttsx3
 import datetime  # pip install datetime
@@ -13,6 +13,8 @@ import webbrowser  # pip install webbrowser module
 import wikipedia  # pip install wikipedia
 import pyjokes  # pip install pyjokes
 import pyautogui  # pip install pyautogui
+from plyer import notification  # pip install plyer and import notification
+from bs4 import BeautifulSoup  # pip install bs4
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -47,6 +49,11 @@ def report_time():
 def speak_va(transcribed_query):
     engine.say(transcribed_query)
     engine.runAndWait()
+
+
+def make_request(url):
+    response = requests.get(url)
+    return response.text
 
 
 # now create function for action
@@ -98,6 +105,41 @@ def activate_va():
         search_url = f"https://www.google.com/search?q={search_term}"
         webbrowser.open(search_url)
         speak_va(f"Here are the results for the search term: {search_term}")
+
+    # installing plyer for notifications, bs4 for web-scraping and requests for api calls
+    elif 'covid-19 stats' in user_query:
+        html_data = make_request('https://www.worldometers.info/coronavirus/')
+        # print(html_data)  # loads the html so we need html parser to get the data
+        soup = BeautifulSoup(html_data, 'html.parser')
+        total_global_row = soup.find_all('tr', {'class': 'total_row'})[-1]  # looking for all the tr's of the total row
+        # and [-1] represents the first row of the end of the table
+        total_cases = total_global_row.find_all('td')[2].get_text()
+        new_cases = total_global_row.find_all('td')[3].get_text()  # index [3] for column 4
+        total_recovered = total_global_row.find_all('td')[6].get_text()
+
+        print('total cases: ', total_cases)
+        print('new cases: ', new_cases[1:])  # start from index [1] and omit + sign
+        print('total recovered: ', total_recovered)
+
+        notification_message = f"Total cases: {total_cases}\n New Cases: {new_cases[1:]}" \
+                               f"\n Total Recovered: {total_recovered}"
+        # {} this symbol is for interpolation
+        # notification pop up
+        notification.notify(
+            title="COVID-19 Statistics",
+            # message="pending...",
+            message=notification_message,
+            timeout=10
+        )
+        speak_va("here are the stats for COVID-19")
+        speak_va(f'total cases: {total_cases}')
+        speak_va(f'new case: {new_cases[1:]}')
+        speak_va(f'total recovered: {total_recovered}')
+
+#         here we need to perform web scrapping for a particular website
+#         for that we need the packages
+#         pip install bs4 for beautiful soup and
+#         pip install requests for api calls to a remote url
 
 
 while True:
