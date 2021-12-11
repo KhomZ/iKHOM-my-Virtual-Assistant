@@ -12,16 +12,17 @@ import datetime  # pip install datetime
 import webbrowser  # pip install webbrowser module
 import wikipedia  # pip install wikipedia
 import pyjokes  # pip install pyjokes
+import pyautogui  # pip install pyautogui
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[1].id) # 1 is for female voice and 0 is for male voice
+engine.setProperty('voice', voices[1].id)  # 1 is for female voice and 0 is for male voice
 
 
 # now let's define a function that accepts the user's command
 def input_query():
-    recognizer = sr.Recognizer() # to recognize  from an audio source
-    with sr.Microphone() as source: # source of recognition
+    recognizer = sr.Recognizer()  # to recognize  from an audio source
+    with sr.Microphone() as source:  # source of recognition
         print('recognition is on....') 
         recognizer.pause_threshold = 0.7
         voice = recognizer.listen(source)
@@ -74,14 +75,21 @@ def activate_va():
     elif 'wikipedia' in user_query:
         speak_va("Searching on Wikipedia")
         user_query = user_query.replace('wikipedia', ' ')
-        result = wikipedia.summary(user_query, sentences = 4)
+        result = wikipedia.summary(user_query, sentences=4)
         print(result)
         speak_va(result)
 
+    # installing pyjokes and generating random jokes
     elif 'joke' in user_query:
         random_joke = pyjokes.get_joke()
         print(random_joke)
         speak_va(random_joke)
+
+    # installing pyautogui package and taking screenshot
+    elif 'screenshot' in user_query:
+        image = pyautogui.screenshot()
+        image.save('screenshot.png')
+        speak_va('Screenshot taken.')
 
 
 while True:

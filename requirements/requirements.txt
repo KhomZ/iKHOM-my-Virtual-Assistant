@@ -4,3 +4,4 @@ datetime
 webbrowser
 wikipedia
 pyjokes
+pyautogui
