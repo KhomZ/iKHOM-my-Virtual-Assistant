@@ -25,7 +25,7 @@ engine.setProperty('voice', voices[1].id)  # 1 is for female voice and 0 is for 
 def input_query():
     recognizer = sr.Recognizer()  # to recognize  from an audio source
     with sr.Microphone() as source:  # source of recognition
-        print('recognition is on....') 
+        print('speech recognition is on....')
         recognizer.pause_threshold = 0.7
         voice = recognizer.listen(source)
         # this method in turn will record the input from the audio source
